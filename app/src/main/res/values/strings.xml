@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MelloFood</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="facebook_app_id">619092355178689</string>
+    <string name="fb_login_protocol_scheme">fb619092355178689</string>
+
+    <string name="FCM_PREF">com.example.mellofood.service.fcm_pref</string>
+    <string name="FCM_TOKEN">com.example.mellofood.service.fcm.token</string>
+
+    <string name="LOGIN_TYPE">com.example.mellofood.service.login.type</string>
+    <string name="LOGIN_ID">com.example.mellofood.service.login.id</string>
+    <string name="LOGIN_TOKEN">com.example.mellofood.service.login.token</string>
+    <string name="LOGIN_TOKEN_SECRET">com.example.mellofood.service.login.token.secret</string>
+</resources>

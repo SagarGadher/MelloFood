@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "282588982228",
+    "firebase_url": "https://mellofood-1385f.firebaseio.com",
+    "project_id": "mellofood-1385f",
+    "storage_bucket": "mellofood-1385f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282588982228:android:450f4d033d32a821",
+        "android_client_info": {
+          "package_name": "com.example.mellofood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282588982228-lata8m3rnkt91uubc2f3n3h7sq6ggn9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mellofood",
+            "certificate_hash": "efb64e689c877509556cafc433d4ba0bb996debc"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFjetAVK7UefZePOQw7f9lr_d9ViOUZig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282588982228-67ges3u63tbdslemomo3tspqk0dr50e2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
