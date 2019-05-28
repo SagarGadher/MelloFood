@@ -26,16 +26,15 @@ import com.example.mellofood.model.MenuList;
 import java.util.ArrayList;
 
 public class MenuFragment extends Fragment implements MenuAdapter.OnItemClickListener, CompoundButton.OnCheckedChangeListener {
+    int position, total = 1;
+    Dialog mOrderDialog;
+    ImageView ivCloseDialog, ivMenuItemImage, ivSubtract, ivAdd;
+    TextView tvMenuItemName, tvMenuItemDescription, tvItemAmount, tvTotal, btnOrderPlace;
+    RadioButton rbSizeSmall, rbSizeMedium, rbSizeLarge, rbCheeseLess, rbCheeseMore;
+    CheckBox cbBreadGarlic, cbBreadJain;
     private RecyclerView mRecyclerView;
     private MenuAdapter mMenuAdapter;
     private ArrayList<MenuList> mMenuItemList;
-    int position,total = 1;
-
-    Dialog mOrderDialog;
-    ImageView ivCloseDialog, ivMenuItemImage,ivSubtract,ivAdd;
-    TextView tvMenuItemName, tvMenuItemDescription,tvItemAmount,tvTotal,btnOrderPlace;
-    RadioButton rbSizeSmall, rbSizeMedium, rbSizeLarge, rbCheeseLess, rbCheeseMore;
-CheckBox cbBreadGarlic, cbBreadJain;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -115,11 +114,11 @@ CheckBox cbBreadGarlic, cbBreadJain;
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (total >=5){
+                if (total >= 5) {
                     Toast.makeText(getActivity(), "Max amount Added !", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                total +=1;
+                total += 1;
                 tvItemAmount.setText(String.valueOf(total));
                 Toast.makeText(getActivity(), "Item Added !", Toast.LENGTH_SHORT).show();
             }
@@ -127,10 +126,10 @@ CheckBox cbBreadGarlic, cbBreadJain;
         ivSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(total <= 0){
+                if (total <= 0) {
                     return;
                 }
-                total -=1;
+                total -= 1;
                 tvItemAmount.setText(String.valueOf(total));
                 Toast.makeText(getActivity(), "Item removed !", Toast.LENGTH_SHORT).show();
             }
@@ -206,7 +205,7 @@ CheckBox cbBreadGarlic, cbBreadJain;
                 }*/
                 break;
             case R.id.rbCheeseMore:
-                if (isChecked){
+                if (isChecked) {
                     Toast.makeText(getActivity(), "More Cheese Selected !", Toast.LENGTH_SHORT).show();
                 }
                 /*if (!isChecked){
@@ -222,7 +221,7 @@ CheckBox cbBreadGarlic, cbBreadJain;
                 }*/
                 break;
             case R.id.cbBreadJain:
-                if (isChecked){
+                if (isChecked) {
                     Toast.makeText(getActivity(), "Jain Bread Selected !", Toast.LENGTH_SHORT).show();
                 }
                 /*if (!isChecked){

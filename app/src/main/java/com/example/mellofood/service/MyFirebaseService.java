@@ -1,10 +1,7 @@
 package com.example.mellofood.service;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.example.mellofood.R;

@@ -4,6 +4,13 @@ public class MenuList {
     private String tvMenuItemName, tvMenuItemDescription, tvMenuItemPrice;
     private int ivMenuItemImage;
 
+    public MenuList(String tvMenuItemName, String tvMenuItemDescription, String tvMenuItemPrice, int ivMenuItemImage) {
+        this.tvMenuItemName = tvMenuItemName;
+        this.tvMenuItemDescription = tvMenuItemDescription;
+        this.tvMenuItemPrice = tvMenuItemPrice;
+        this.ivMenuItemImage = ivMenuItemImage;
+    }
+
     public String getTvMenuItemName() {
         return tvMenuItemName;
     }
@@ -18,12 +25,5 @@ public class MenuList {
 
     public String getTvMenuItemPrice() {
         return tvMenuItemPrice;
-    }
-
-    public MenuList(String tvMenuItemName, String tvMenuItemDescription, String tvMenuItemPrice, int ivMenuItemImage) {
-        this.tvMenuItemName = tvMenuItemName;
-        this.tvMenuItemDescription = tvMenuItemDescription;
-        this.tvMenuItemPrice = tvMenuItemPrice;
-        this.ivMenuItemImage = ivMenuItemImage;
     }
 }

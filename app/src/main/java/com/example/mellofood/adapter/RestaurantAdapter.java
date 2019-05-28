@@ -43,9 +43,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         return mRestaurantList.size();
     }
 
+    public void setOnItemClickListener(RestaurantAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, int id);
+    }
+
     public class RestaurantItemViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivStoreImage;
-        public TextView tvStoreName,tvDescription;
+        public TextView tvStoreName, tvDescription;
 
         public RestaurantItemViewHolder(final View itemView) {
             super(itemView);
@@ -58,7 +66,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
@@ -69,7 +77,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
@@ -80,19 +88,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position,int id);
-    }
-
-    public void setOnItemClickListener(RestaurantAdapter.OnItemClickListener listener) {
-        mListener = listener;
     }
 }

@@ -7,14 +7,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,11 +31,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mellofood.JsonPlaceHolderApi;
+import com.example.mellofood.R;
 import com.example.mellofood.adapter.OutletAdapter;
 import com.example.mellofood.database.TableContent;
 import com.example.mellofood.database.UserDBHelper;
 import com.example.mellofood.model.OutletList;
-import com.example.mellofood.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -44,41 +43,21 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
 import org.apache.commons.codec.binary.Base64;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.Api;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuthService;
-import org.scribe.builder.api.TwitterApi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import oauth.signpost.OAuthProvider;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -87,30 +66,24 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OutletActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OutletAdapter.OnItemClickListener {
-    private DrawerLayout drawer;
-    Toolbar toolbar;
-    Intent logOutIntent;
-
-    JsonPlaceHolderApi jsonPlaceHolderApi;
-
+    final static String CONSUMER_KEY = "121a5d77c4bd07477baab083686e9519";
+    final static String CONSUMER_SECRET = "c7a926823d14be0f95f53b9ca122396d";
     private static final String HMAC_SHA1 = "HmacSHA1";
     private static final String ENC = "UTF-8";
+    static Activity activity;
+    Toolbar toolbar;
+    Intent logOutIntent;
+    JsonPlaceHolderApi jsonPlaceHolderApi;
+    GridLayoutManager gridLayoutManager;
+    SharedPreferences sharedPreferences;
+    String URL, login_token, login_token_secret;
+    String nonce;
+    String timeStamp;
+    private DrawerLayout drawer;
     private Base64 base64 = new Base64();
-
     private RecyclerView mRecyclerView;
     private OutletAdapter mOutletAdapter;
     private ArrayList<OutletList> mOutletLists;
-    GridLayoutManager gridLayoutManager;
-
-    static Activity activity;
-    SharedPreferences sharedPreferences;
-
-    String URL, login_token, login_token_secret;
-    final static String CONSUMER_KEY = "121a5d77c4bd07477baab083686e9519";
-    final static String CONSUMER_SECRET = "c7a926823d14be0f95f53b9ca122396d";
-
-    String nonce;
-    String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +94,7 @@ public class OutletActivity extends AppCompatActivity implements NavigationView.
         activity = OutletActivity.this;
 
         nonce = UUID.randomUUID().toString();
-        Long tsLong = System.currentTimeMillis()/1000;
+        Long tsLong = System.currentTimeMillis() / 1000;
         timeStamp = tsLong.toString();
 
         ///Retrofit Code
@@ -324,6 +297,76 @@ public class OutletActivity extends AppCompatActivity implements NavigationView.
         }
     }
 
+    private String encode(String value) {
+        String encoded = "";
+        try {
+            encoded = URLEncoder.encode(value, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String sb = "";
+        char focus;
+        for (int i = 0; i < encoded.length(); i++) {
+            focus = encoded.charAt(i);
+            if (focus == '*') {
+                sb += "%2A";
+            } else if (focus == '+') {
+                sb += "%20";
+            } else if (focus == '%' && i + 1 < encoded.length()
+                    && encoded.charAt(i + 1) == '7' && encoded.charAt(i + 2) == 'E') {
+                sb += '~';
+                i += 2;
+            } else {
+                sb += focus;
+            }
+        }
+        return sb;
+    }
+
+    private String generateSignature(String signatueBaseStr, String oAuthConsumerSecret, String oAuthTokenSecret) {
+        byte[] byteHMAC = null;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec spec;
+            if (null == oAuthTokenSecret) {
+                String signingKey = encode(oAuthConsumerSecret) + '&';
+                spec = new SecretKeySpec(signingKey.getBytes(), "HmacSHA1");
+            } else {
+                String signingKey = encode(oAuthConsumerSecret) + '&' + encode(oAuthTokenSecret);
+                spec = new SecretKeySpec(signingKey.getBytes(), "HmacSHA1");
+            }
+            mac.init(spec);
+            byteHMAC = mac.doFinal(signatueBaseStr.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new String(base64.encode(byteHMAC));
+    }
+
+    private void getOutlet() {
+        Map<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+        header.put("Device-Name", "android");
+        header.put("Authorization", "OAuth oauth_consumer_key=\"121a5d77c4bd07477baab083686e9519\",oauth_token=\"" + login_token + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + timeStamp + "\",oauth_nonce=\"" + nonce + "\",oauth_version=\"1.0\",oauth_signature=\"BgyNiyeNDUpmR%2FQabx68InaOoYs%3D\"");
+        Call<JSONObject> call = jsonPlaceHolderApi.getOutlet(header);
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, retrofit2.Response<JSONObject> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("RetrofitResponse", "Code: " + response.code());
+                    return;
+                }
+                JSONObject j1 = response.body();
+                Log.e("RetrofitResponse", "Object: " + j1.toString());
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.e("RetrofitResponseFailure", "Code: " + t.getMessage());
+            }
+        });
+    }
+
     public class AsyncTaskOperation extends AsyncTask<Void, Void, Void> {
         JSONObject jsonObject = new JSONObject();
         String nonce = String.valueOf((int) (Math.random() * 100000000));
@@ -397,76 +440,6 @@ public class OutletActivity extends AppCompatActivity implements NavigationView.
             }
             return null;
         }
-    }
-
-    private String encode(String value) {
-        String encoded = "";
-        try {
-            encoded = URLEncoder.encode(value, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String sb = "";
-        char focus;
-        for (int i = 0; i < encoded.length(); i++) {
-            focus = encoded.charAt(i);
-            if (focus == '*') {
-                sb += "%2A";
-            } else if (focus == '+') {
-                sb += "%20";
-            } else if (focus == '%' && i + 1 < encoded.length()
-                    && encoded.charAt(i + 1) == '7' && encoded.charAt(i + 2) == 'E') {
-                sb += '~';
-                i += 2;
-            } else {
-                sb += focus;
-            }
-        }
-        return sb;
-    }
-
-    private String generateSignature(String signatueBaseStr, String oAuthConsumerSecret, String oAuthTokenSecret) {
-        byte[] byteHMAC = null;
-        try {
-            Mac mac = Mac.getInstance("HmacSHA1");
-            SecretKeySpec spec;
-            if (null == oAuthTokenSecret) {
-                String signingKey = encode(oAuthConsumerSecret) + '&';
-                spec = new SecretKeySpec(signingKey.getBytes(), "HmacSHA1");
-            } else {
-                String signingKey = encode(oAuthConsumerSecret) + '&' + encode(oAuthTokenSecret);
-                spec = new SecretKeySpec(signingKey.getBytes(), "HmacSHA1");
-            }
-            mac.init(spec);
-            byteHMAC = mac.doFinal(signatueBaseStr.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new String(base64.encode(byteHMAC));
-    }
-
-    private void getOutlet(){
-        Map<String,String> header = new HashMap<>();
-        header.put("Content-Type","application/json");
-        header.put("Device-Name","android");
-        header.put("Authorization","OAuth oauth_consumer_key=\"121a5d77c4bd07477baab083686e9519\",oauth_token=\""+login_token+"\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\""+timeStamp+"\",oauth_nonce=\""+nonce+"\",oauth_version=\"1.0\",oauth_signature=\"BgyNiyeNDUpmR%2FQabx68InaOoYs%3D\"");
-        Call<JSONObject> call = jsonPlaceHolderApi.getOutlet(header);
-        call.enqueue(new Callback<JSONObject>() {
-            @Override
-            public void onResponse(Call<JSONObject> call, retrofit2.Response<JSONObject> response) {
-                if (!response.isSuccessful()) {
-                    Log.e("RetrofitResponse","Code: " + response.code());
-                    return;
-                }
-                JSONObject j1 = response.body();
-                Log.e("RetrofitResponse","Object: " + j1.toString());
-            }
-
-            @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
-                Log.e("RetrofitResponseFailure","Code: " + t.getMessage());
-            }
-        });
     }
 }
 

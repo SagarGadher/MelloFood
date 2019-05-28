@@ -2,10 +2,10 @@ package com.example.mellofood.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +13,9 @@ import android.widget.ImageButton;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.example.mellofood.R;
 import com.example.mellofood.adapter.MenuAdapter;
 import com.example.mellofood.adapter.PagerViewAdapter;
-import com.example.mellofood.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,16 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity implements MenuAdapter.OnItemClickListener {
-    Toolbar toolbar;
-
-    private ViewPager mMainPager;
-    ImageButton ibtnMoreList;
-    private PagerViewAdapter mPagerViewAdapter;
-    String selectedStore;
-    TextView tvList,tvTotalAmount,tvItemCount,btnViewCart;
-
-    private final String CUSTOM_ADAPTER_TEXT = "text";
     final String[] Store = {"Ahmedabad One", "himalaya", "Food On Way", "Honest", "Havmor", "William Johnes", "Real Paprika", "La Pino'z"};
+    private final String CUSTOM_ADAPTER_TEXT = "text";
+    Toolbar toolbar;
+    ImageButton ibtnMoreList;
+    String selectedStore;
+    TextView tvList, tvTotalAmount, tvItemCount, btnViewCart;
+    private ViewPager mMainPager;
+    private PagerViewAdapter mPagerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class MenuActivity extends AppCompatActivity implements MenuAdapter.OnIte
         btnViewCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this,CartActivity.class);
+                Intent i = new Intent(MenuActivity.this, CartActivity.class);
                 startActivity(i);
             }
         });
@@ -123,6 +121,7 @@ public class MenuActivity extends AppCompatActivity implements MenuAdapter.OnIte
         builder.create();
         builder.show();
     }
+
     @Override
     public void onItemClick(int position, int id) {
 

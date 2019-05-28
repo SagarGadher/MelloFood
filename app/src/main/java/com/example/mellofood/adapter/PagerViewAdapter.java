@@ -12,14 +12,15 @@ public class PagerViewAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-     @Override
-     public Fragment getItem(int position) {
-         MenuFragment menuFragment = new MenuFragment();
-         Bundle bundle = new Bundle();
-         bundle.putInt("position",position);
-         menuFragment.setArguments(bundle);
-         return  menuFragment;
-     }
+    @Override
+    public Fragment getItem(int position) {
+        MenuFragment menuFragment = new MenuFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        menuFragment.setArguments(bundle);
+        return menuFragment;
+    }
+
     @Override
     public int getCount() {
         return 8;

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,37 +18,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mellofood.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+    static Activity activity;
     TextView tvReturnLogin;
     EditText etUserName, etPassword, etCPassword;
     Button btnSignUp;
@@ -57,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     boolean validation;
     String token;
     SharedPreferences sharedPreferences;
-    static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +106,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             validation = true;
         }
         return validation;
+    }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public class AsyncTaskOperation extends AsyncTask<Void, Void, Void> {
@@ -199,24 +207,5 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
             return null;
         }
-    }
-
-    public String md5(String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 }

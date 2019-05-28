@@ -9,12 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mellofood.R;
-import com.example.mellofood.activity.LoginActivity;
 import com.example.mellofood.database.TableContent;
 import com.example.mellofood.database.UserDBHelper;
 import com.example.mellofood.model.OutletList;
@@ -28,13 +26,12 @@ import java.util.List;
 public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItemViewHolder> {
     private Context mContext;
     private ArrayList<OutletList> mOutletList;
+    private OutletAdapter.OnItemClickListener mListener;
 
     public OutletAdapter(Context mContext, ArrayList<OutletList> mOutletList) {
         this.mContext = mContext;
         this.mOutletList = mOutletList;
     }
-
-    private OutletAdapter.OnItemClickListener mListener;
 
     @NonNull
     @Override
@@ -51,7 +48,7 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItem
         if (mCurrentItem.getIsLike().equals("Like")) {
             holder.ibtnStoreLike.setImageResource(R.drawable.ic_like);
         }
-        if(mCurrentItem.getIsLike().equals("UnLike")){
+        if (mCurrentItem.getIsLike().equals("UnLike")) {
             holder.ibtnStoreLike.setImageResource(R.drawable.ic_unlike);
         }
     }
@@ -59,6 +56,14 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItem
     @Override
     public int getItemCount() {
         return mOutletList.size();
+    }
+
+    public void setOnItemClickListener(OutletAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, int id);
     }
 
     public class OutletItemViewHolder extends RecyclerView.ViewHolder {
@@ -119,12 +124,12 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItem
                                 mOutletList.get(getAdapterPosition()).setIsLike("Like");
                                 likes = android.text.TextUtils.join(",", newArrayList);
                                 userDBHelper.update(likes, db);
-                                Log.d("LoginMessage",likes + "Add");
+                                Log.d("LoginMessage", likes + "Add");
                             } else if (mOutletList.get(getAdapterPosition()).getIsLike().equals("Like")) {
                                 String position1 = String.valueOf(mOutletList.get(getAdapterPosition()).getId());
                                 for (int i = 0; i < newArrayList.size(); i++) {
                                     if (newArrayList.get(i).equals(position1)) {
-                                        Log.d("LoginMessageRemove",newArrayList.get(i));
+                                        Log.d("LoginMessageRemove", newArrayList.get(i));
                                         newArrayList.remove(i);
                                     }
                                 }
@@ -139,8 +144,8 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItem
                             Collections.sort(mOutletList, new Comparator<OutletList>() {
                                 @Override
                                 public int compare(OutletList o1, OutletList o2) {
-                                            return o1.getIsLike().compareTo(o2.getIsLike());
-                                    }
+                                    return o1.getIsLike().compareTo(o2.getIsLike());
+                                }
                             });
                             notifyDataSetChanged();
                         }
@@ -148,13 +153,5 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.OutletItem
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position, int id);
-    }
-
-    public void setOnItemClickListener(OutletAdapter.OnItemClickListener listener) {
-        mListener = listener;
     }
 }

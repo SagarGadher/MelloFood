@@ -6,12 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mellofood.R;
-import com.example.mellofood.activity.CartActivity;
 import com.example.mellofood.model.OrderList;
 
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
         OrderList mCurrentItem = mOrderItemList.get(position);
         holder.tvItemName.setText(mCurrentItem.getItemName());
         holder.tvItemDescription.setText(mCurrentItem.getItemDescription());
-        holder.tvItemPrice.setText("$"+mCurrentItem.getItemPrice());
+        holder.tvItemPrice.setText("$" + mCurrentItem.getItemPrice());
         holder.tvItemAmount.setText(mCurrentItem.getItemAmount());
     }
 
@@ -47,8 +44,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
         return mOrderItemList.size();
     }
 
+    public void setOnItemClickListener(OrderAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, int id);
+    }
+
     public class OrderItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvItemName,tvItemDescription,tvItemPrice,tvItemAmount;
+        public TextView tvItemName, tvItemDescription, tvItemPrice, tvItemAmount;
 
         public OrderItemViewHolder(final View itemView) {
             super(itemView);
@@ -62,7 +67,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
@@ -73,7 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
@@ -84,19 +89,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderItemVie
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position,int id);
-    }
-
-    public void setOnItemClickListener(OrderAdapter.OnItemClickListener listener) {
-        mListener = listener;
     }
 }

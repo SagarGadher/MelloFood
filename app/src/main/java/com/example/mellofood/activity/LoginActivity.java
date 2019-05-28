@@ -9,8 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText etUserName, etPassword;
     TextView tvSkip, tvForgot;
     CheckBox cbAgree, ic_password;
-    String UserName, Password,md5,token,login_token;
+    String UserName, Password, md5, token, login_token;
     Boolean validation = false;
     LoginButton btnFacebookLogin;
     CallbackManager callbackManager;
@@ -79,15 +79,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.v("fromSharedPreferance", token);
         login_token = sharedPreferences.getString(getString(R.string.LOGIN_TOKEN), "");
         Log.v("fromShared_login", login_token);
-        if (!login_token.isEmpty() && login_token != null){
+        if (!login_token.isEmpty() && login_token != null) {
             Toast.makeText(this, "You are already Login", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(LoginActivity.this,OutletActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent i = new Intent(LoginActivity.this, OutletActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
         }
         Intent si = getIntent();
-        boolean checkActivity = si.getBooleanExtra("Flag_Activity",false);
-        if (checkActivity){
+        boolean checkActivity = si.getBooleanExtra("Flag_Activity", false);
+        if (checkActivity) {
             UserName = getIntent().getStringExtra("UserName");
             md5 = getIntent().getStringExtra("Password");
             new AsyncTaskOperation1().execute();
@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String last_name = object.getString("last_name");
                             String email = object.getString("email");
 
-                            new AsyncTaskOperation().execute(first_name,last_name,email);
+                            new AsyncTaskOperation().execute(first_name, last_name, email);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -209,14 +209,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSignUp:
-                Log.d("Log_token_",token + "hello");
+                Log.d("Log_token_", token + "hello");
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
             case R.id.btnLogin:
                 if (checkValiation()) {
                     Log.d("LoginDetailsE", UserName);
                     Log.d("LoginDetailsP", md5);
-                    Log.d("LoginDetailsT",token + "hello");
+                    Log.d("LoginDetailsT", token + "hello");
                     new AsyncTaskOperation1().execute();
                     Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show();
                 }
@@ -292,89 +292,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public class AsyncTaskOperation extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String email = strings[2];
-            Log.d("LoginMassage",""+email);
-            UserDBHelper userDBHelper = new UserDBHelper(LoginActivity.this);
-            SQLiteDatabase db = userDBHelper.getWritableDatabase();
-            Cursor cursor = userDBHelper.viewUser(db);
-            /*userDBHelper.insertLike(1,db);*/
-            userDBHelper.insertUser(strings[0],strings[1],strings[2],"",db);
-            while (cursor.moveToNext()) {
-                String EMAIL =cursor.getString(cursor.getColumnIndex(TableContent.TableEntry.EMAIL));
-                if (email.equals(EMAIL)){
-                    Log.d("LoginMassage","Data Base has alrady this email");
-                    break;
-                }
-                else {
-                    Log.d("LoginMassage","Data inserted");
-                    userDBHelper.insertUser(strings[0],strings[1],strings[2],null,db);
-                }
-            }
-            userDBHelper.close();
-            return null;
-        }
-    }
-
-    public class AsyncTaskOperation1 extends AsyncTask<Void, Void, JSONObject> {
-        JSONObject jsonObject = new JSONObject();
-        String id,login_token_secret;
-        @Override
-        protected JSONObject doInBackground(Void... Void) {
-            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-            try {
-                String URL = "http://10.0.0.10/mello/authenticate?group_id=1&lang_code=en_US&email="+UserName+"&password="+md5+"&newsSubscription=subscribed&device_token="+token+"&device_type=Android&country_code=91";
-                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
-                        new Response.Listener<JSONObject>()
-                        {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // display response
-                                jsonObject = response;
-                                Log.d("LoginResponse", response.toString());
-                                try {
-                                    JSONObject j1= response.getJSONObject("data");
-                                    id = j1.getString("id");
-                                    login_token= j1.getString("oauth_token");
-                                    login_token_secret = j1.getString("oauth_token_secret");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), Context.MODE_PRIVATE);
-                                SharedPreferences.Editor ed = sharedPreferences.edit();
-                                ed.putString(getString(R.string.LOGIN_TYPE), "CUSTOM");
-                                ed.putString(getString(R.string.LOGIN_ID), id);
-                                ed.putString(getString(R.string.LOGIN_TOKEN), login_token);
-                                ed.putString(getString(R.string.LOGIN_TOKEN_SECRET), login_token_secret);
-                                Log.v("fromShared_login", login_token);
-                                ed.commit();
-
-                                Intent i = new Intent(LoginActivity.this,OutletActivity.class);
-                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
-                                finish();
-                            }
-                        },
-                        new Response.ErrorListener()
-                        {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("LOG_VOLLEY", error.toString());
-                            }
-                        }
-                );
-
-                queue.add(getRequest);
-
-            } catch (Exception e) {
-                Log.d("LOG_TAG",e.getMessage());
-            }
-            return jsonObject;
-        }
-    }
     public String md5(String s) {
         try {
             // Create MD5 Hash
@@ -392,5 +309,87 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             e.printStackTrace();
         }
         return "";
+    }
+
+    public class AsyncTaskOperation extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String email = strings[2];
+            Log.d("LoginMassage", "" + email);
+            UserDBHelper userDBHelper = new UserDBHelper(LoginActivity.this);
+            SQLiteDatabase db = userDBHelper.getWritableDatabase();
+            Cursor cursor = userDBHelper.viewUser(db);
+            /*userDBHelper.insertLike(1,db);*/
+            userDBHelper.insertUser(strings[0], strings[1], strings[2], "", db);
+            while (cursor.moveToNext()) {
+                String EMAIL = cursor.getString(cursor.getColumnIndex(TableContent.TableEntry.EMAIL));
+                if (email.equals(EMAIL)) {
+                    Log.d("LoginMassage", "Data Base has alrady this email");
+                    break;
+                } else {
+                    Log.d("LoginMassage", "Data inserted");
+                    userDBHelper.insertUser(strings[0], strings[1], strings[2], null, db);
+                }
+            }
+            userDBHelper.close();
+            return null;
+        }
+    }
+
+    public class AsyncTaskOperation1 extends AsyncTask<Void, Void, JSONObject> {
+        JSONObject jsonObject = new JSONObject();
+        String id, login_token_secret;
+
+        @Override
+        protected JSONObject doInBackground(Void... Void) {
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            try {
+                String URL = "http://10.0.0.10/mello/authenticate?group_id=1&lang_code=en_US&email=" + UserName + "&password=" + md5 + "&newsSubscription=subscribed&device_token=" + token + "&device_type=Android&country_code=91";
+                JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // display response
+                                jsonObject = response;
+                                Log.d("LoginResponse", response.toString());
+                                try {
+                                    JSONObject j1 = response.getJSONObject("data");
+                                    id = j1.getString("id");
+                                    login_token = j1.getString("oauth_token");
+                                    login_token_secret = j1.getString("oauth_token_secret");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.FCM_PREF), Context.MODE_PRIVATE);
+                                SharedPreferences.Editor ed = sharedPreferences.edit();
+                                ed.putString(getString(R.string.LOGIN_TYPE), "CUSTOM");
+                                ed.putString(getString(R.string.LOGIN_ID), id);
+                                ed.putString(getString(R.string.LOGIN_TOKEN), login_token);
+                                ed.putString(getString(R.string.LOGIN_TOKEN_SECRET), login_token_secret);
+                                Log.v("fromShared_login", login_token);
+                                ed.commit();
+
+                                Intent i = new Intent(LoginActivity.this, OutletActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
+                                finish();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("LOG_VOLLEY", error.toString());
+                            }
+                        }
+                );
+
+                queue.add(getRequest);
+
+            } catch (Exception e) {
+                Log.d("LOG_TAG", e.getMessage());
+            }
+            return jsonObject;
+        }
     }
 }

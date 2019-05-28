@@ -45,9 +45,17 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuItemViewHo
         return mMenuItemList.size();
     }
 
+    public void setOnItemClickListener(MenuAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, int id);
+    }
+
     public class MenuItemViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivMenuItemImage;
-        public TextView tvMenuItemName,tvMenuItemDescription,tvMenuItemPrice;
+        public TextView tvMenuItemName, tvMenuItemDescription, tvMenuItemPrice;
 
         public MenuItemViewHolder(final View itemView) {
             super(itemView);
@@ -61,7 +69,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuItemViewHo
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
@@ -72,19 +80,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuItemViewHo
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onItemClick(position,v.getId());
+                            mListener.onItemClick(position, v.getId());
                         }
                     }
                 }
             });
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position,int id);
-    }
-
-    public void setOnItemClickListener(MenuAdapter.OnItemClickListener listener) {
-        mListener = listener;
     }
 }

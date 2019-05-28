@@ -88,8 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/tvPassword"
                     android:layout_alignParentRight="true"
-                    android:button="@null"
-                    android:background="@drawable/ic_hide" />
+                    android:background="@drawable/ic_hide"
+                    android:button="@null" />
 
                 <EditText
                     android:id="@+id/etPassword"
@@ -164,26 +164,26 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_weight="1"
-                android:background="#3b5998"
                 android:layout_gravity="center"
-                />
+                android:layout_weight="1"
+                android:background="#3b5998" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OR"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
+                android:text="OR"
                 android:textColor="@color/WhiteColor" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="#3b5998" />
         </LinearLayout>
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/btnFacebookLogin"
             android:layout_width="match_parent"
@@ -191,8 +191,7 @@
             android:layout_marginTop="18dp"
             android:layout_marginBottom="18dp"
             android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            />
+            android:paddingBottom="14dp" />
 
         <!--<Button
             android:id="@+id/btnFacebookLogin"

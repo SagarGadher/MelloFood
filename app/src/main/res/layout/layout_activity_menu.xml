@@ -9,8 +9,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/llViewCart"
-        >
+        android:layout_above="@+id/llViewCart">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -32,24 +31,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/mainPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                >
-            </android.support.v4.view.ViewPager>
+                android:layout_alignParentTop="true"></android.support.v4.view.ViewPager>
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
+
     <LinearLayout
+        android:id="@+id/llViewCart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
-        android:id="@+id/llViewCart"
-        >
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -84,15 +81,15 @@
             android:id="@+id/btnViewCart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="2"
             android:background="@drawable/round_signup_button"
-            android:layout_gravity="center"
             android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="VIEW CART"
-            android:textSize="16sp"
-            android:textColor="@color/WhiteColor" />
+            android:textColor="@color/WhiteColor"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvTotalAmount"

@@ -2,13 +2,13 @@ package com.example.mellofood.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,8 +17,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mellofood.R;
-import com.example.mellofood.model.RestaurantList;
 import com.example.mellofood.adapter.RestaurantAdapter;
+import com.example.mellofood.model.RestaurantList;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -28,23 +28,21 @@ import com.facebook.login.LoginManager;
 import java.util.ArrayList;
 
 public class LandmarkActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RestaurantAdapter.OnItemClickListener {
-    private DrawerLayout drawer;
+    static Activity activity;
     Toolbar toolbar;
     Intent logOutIntent;
-
+    private DrawerLayout drawer;
     private RecyclerView mRecyclerView;
     private RestaurantAdapter mRestaurantAdapter;
     private ArrayList<RestaurantList> mRestaurantsList;
-
-    static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_landmark);
 
-        logOutIntent = new Intent(LandmarkActivity.this,LoginActivity.class);
-        logOutIntent.putExtra("ActivityName","LandmarkActivity");
+        logOutIntent = new Intent(LandmarkActivity.this, LoginActivity.class);
+        logOutIntent.putExtra("ActivityName", "LandmarkActivity");
 
         activity = this;
 
@@ -147,11 +145,12 @@ public class LandmarkActivity extends AppCompatActivity implements NavigationVie
             default:
                 Intent i = new Intent(LandmarkActivity.this, MenuActivity.class);
                 i.putExtra("storeName", storeName);
-                i.putExtra("position",position);
+                i.putExtra("position", position);
                 startActivity(i);
                 break;
         }
     }
+
     public void disconnectFromFacebook() {
 
         if (AccessToken.getCurrentAccessToken() == null) {
@@ -165,11 +164,9 @@ public class LandmarkActivity extends AppCompatActivity implements NavigationVie
             public void onCompleted(GraphResponse graphResponse) {
                 try {
                     LoginManager.getInstance().logOut();
-                }
-                catch (Exception e){
-                    Log.d("FacebookLogOutError",e.getMessage());
-                }
-                finally {
+                } catch (Exception e) {
+                    Log.d("FacebookLogOutError", e.getMessage());
+                } finally {
                     startActivity(logOutIntent);
                 }
             }

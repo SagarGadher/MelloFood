@@ -1,9 +1,8 @@
 package com.example.mellofood.activity;
 
-import android.content.Intent;
 import android.graphics.Paint;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity implements OrderAdapter.OnItemClickListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    TextView tvAddMore, tvApplyPC, tvFinalAmount, tvTotalAmount, tvStoreName, tvLandmarkName,tvCheckOut;
+    TextView tvAddMore, tvApplyPC, tvFinalAmount, tvTotalAmount, tvStoreName, tvLandmarkName, tvCheckOut;
     EditText etPromoCode;
     RadioButton rbPayWithDBS, rbPayWithPOBS;
 
@@ -86,7 +85,7 @@ public class CartActivity extends AppCompatActivity implements OrderAdapter.OnIt
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvAddMore:
                 Toast.makeText(CartActivity.this, "Add More", Toast.LENGTH_SHORT).show();
                 break;
@@ -102,20 +101,18 @@ public class CartActivity extends AppCompatActivity implements OrderAdapter.OnIt
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
+        switch (buttonView.getId()) {
             case R.id.rbPayWithDBS:
-                if (isChecked){
+                if (isChecked) {
                     Toast.makeText(this, "DBS is selected", Toast.LENGTH_SHORT).show();
-                }
-                else if (!isChecked){
+                } else if (!isChecked) {
 
                 }
                 break;
             case R.id.rbPayWithPOBS:
-                if (isChecked){
+                if (isChecked) {
                     Toast.makeText(this, "POBS is selected", Toast.LENGTH_SHORT).show();
-                }
-                else if (!isChecked){
+                } else if (!isChecked) {
 
                 }
                 break;

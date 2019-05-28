@@ -55,14 +55,14 @@
                 android:textColor="@color/WhiteColor"
                 android:textColorHint="@color/WhiteColor" />
 
-                <TextView
-                    android:id="@+id/tvPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="Password"
-                    android:textColor="@color/WhiteColor"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="Password"
+                android:textColor="@color/WhiteColor"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -74,6 +74,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/WhiteColor"
                 android:textColorHint="@color/WhiteColor" />
+
             <TextView
                 android:id="@+id/tvCPassword"
                 android:layout_width="wrap_content"
@@ -109,17 +110,17 @@
         android:background="@drawable/round_signup_button"
         android:text="SIGN UP"
         android:textColor="@color/WhiteColor" />
+
     <TextView
         android:id="@+id/tvReturnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnSignUp"
         android:layout_centerHorizontal="true"
-        android:text="Return to Login"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_below="@id/btnSignUp"
-        android:textColor="@color/colorAccent"
-        />
+        android:text="Return to Login"
+        android:textColor="@color/colorAccent" />
 
     <CheckBox
         android:id="@+id/checkBox"

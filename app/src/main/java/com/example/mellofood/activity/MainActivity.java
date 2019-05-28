@@ -2,16 +2,15 @@ package com.example.mellofood.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.mellofood.R;
-import com.example.mellofood.database.UserDBHelper;
 
 public class MainActivity extends AppCompatActivity {
     static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = userDBHelper.getWritableDatabase();
         userDBHelper.dropTable(db);*/
         splsh.start();
-        activity= MainActivity.this;
+        activity = MainActivity.this;
 
     }
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             userDBHelper.dropTable(db);
             userDBHelper.close();*/
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("ActivityName","MainActivity");
+            intent.putExtra("ActivityName", "MainActivity");
             startActivity(intent);
         }
     }

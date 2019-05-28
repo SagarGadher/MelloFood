@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:layout_marginTop="8dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:layout_marginTop="4dp"
-        >
+        android:paddingTop="16dp">
 
         <ImageView
             android:layout_width="32dp"
@@ -34,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:text="My Account"
-                android:textColor="@color/BlackColor"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/BlackColor" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/BlackColor"
-                android:text="MelloFood@mail.com" />
+                android:text="MelloFood@mail.com"
+                android:textColor="@color/BlackColor" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

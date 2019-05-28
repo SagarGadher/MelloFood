@@ -10,5 +10,5 @@ import retrofit2.http.HeaderMap;
 
 public interface JsonPlaceHolderApi {
     @GET("catalog/outlet?lang_code=en_US")
-    Call<JSONObject> getOutlet(@HeaderMap Map<String,String> headers);
+    Call<JSONObject> getOutlet(@HeaderMap Map<String, String> headers);
 }

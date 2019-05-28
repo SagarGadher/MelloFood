@@ -16,9 +16,9 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
-            android:layout_margin="4dp">
+            android:layout_margin="4dp"
+            android:layout_weight="2">
 
             <ImageView
                 android:id="@+id/ivMenuItemImage"
@@ -29,10 +29,11 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="4"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:layout_weight="4"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvMenuItemName"
                 android:layout_width="wrap_content"
@@ -41,21 +42,23 @@
                 android:text="Store name appear here"
                 android:textColor="@color/BlackColor"
                 android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/tvMenuItemDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:text="Store name appear here Store name appear here"
                 android:ellipsize="end"
+                android:text="Store name appear here Store name appear here"
                 android:textColor="@color/cardview_shadow_start_color"
                 android:textSize="16sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1.9"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
+            android:layout_weight="1.9"
             android:orientation="vertical">
 
             <TextView
@@ -74,8 +77,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
-                android:src="@drawable/ic_add"
-                />
+                android:src="@drawable/ic_add" />
 
         </LinearLayout>
     </LinearLayout>

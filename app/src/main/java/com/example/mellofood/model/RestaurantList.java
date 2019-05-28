@@ -4,6 +4,12 @@ public class RestaurantList {
     String tvStoreName, tvDescription;
     private int ivStoreImage;
 
+    public RestaurantList(String tvStoreName, String tvDescription, int ivStoreImage) {
+        this.tvStoreName = tvStoreName;
+        this.tvDescription = tvDescription;
+        this.ivStoreImage = ivStoreImage;
+    }
+
     public String getTvDescription() {
         return tvDescription;
     }
@@ -14,11 +20,5 @@ public class RestaurantList {
 
     public int getIvStoreImage() {
         return ivStoreImage;
-    }
-
-    public RestaurantList(String tvStoreName, String tvDescription, int ivStoreImage) {
-        this.tvStoreName = tvStoreName;
-        this.tvDescription = tvDescription;
-        this.ivStoreImage = ivStoreImage;
     }
 }
